@@ -15,7 +15,7 @@ services:
     networks:
       - avaliacao-network
     healthcheck:
-      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P SuaSenha@123 -Q "SELECT 1" || exit 1
+      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Avaliacao@123 -Q "SELECT 1" || exit 1
       interval: 10s
       timeout: 3s
       retries: 10
@@ -24,12 +24,12 @@ services:
   api:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: src/Avaliacao.API/Dockerfile
     container_name: avaliacao-api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=AvaliacaoDB;User Id=sa;Password=SuaSenha@123;TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=AvaliacaoDB;User Id=sa;Password=Avaliacao@123;TrustServerCertificate=True;
     ports:
       - "5000:8080"
     depends_on:

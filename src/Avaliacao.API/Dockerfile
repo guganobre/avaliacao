@@ -2,29 +2,27 @@
 
 # Esta fase é usada durante a execução no VS no modo rápido (Padrão para a configuração de Depuração)
 FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS base
-USER $APP_UID
 WORKDIR /app
 EXPOSE 8080
 EXPOSE 8081
-
 
 # Esta fase é usada para compilar o projeto de serviço
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["Avaliacao/Avaliacao.csproj", "Avaliacao/"]
-RUN dotnet restore "./Avaliacao/Avaliacao.csproj"
+COPY ["src/Avaliacao.API/Avaliacao.API.csproj", "src/Avaliacao.API/"]
+RUN dotnet restore "src/Avaliacao.API/Avaliacao.API.csproj"
 COPY . .
-WORKDIR "/src/Avaliacao"
-RUN dotnet build "./Avaliacao.csproj" -c $BUILD_CONFIGURATION -o /app/build
+WORKDIR "/src/src/Avaliacao.API"
+RUN dotnet build "Avaliacao.API.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
 # Esta fase é usada para publicar o projeto de serviço a ser copiado para a fase final
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./Avaliacao.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "Avaliacao.API.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
 # Esta fase é usada na produção ou quando executada no VS no modo normal (padrão quando não está usando a configuração de Depuração)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Avaliacao.dll"]
+ENTRYPOINT ["dotnet", "Avaliacao.API.dll"]
