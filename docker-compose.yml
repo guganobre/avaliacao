@@ -14,13 +14,7 @@ services:
       - sqlserver-data:/var/opt/mssql
     networks:
       - avaliacao-network
-    healthcheck:
-      test: /opt/mssql-tools/bin/sqlcmd -S localhost -U sa -P Avaliacao@123 -Q "SELECT 1" || exit 1
-      interval: 10s
-      timeout: 3s
-      retries: 10
-      start_period: 10s
-
+ 
   api:
     build:
       context: .
@@ -29,12 +23,13 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:8080
-      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=AvaliacaoDB;User Id=sa;Password=Avaliacao@123;TrustServerCertificate=True;
+      - ConnectionStrings__SQLConnection=Server=sqlserver,1433;Database=AvaliacaoDB;User Id=sa;Password=Avaliacao@123;TrustServerCertificate=True;
     ports:
       - "5000:8080"
     depends_on:
       sqlserver:
-        condition: service_healthy
+        condition: service_started
+    entrypoint: sh -c "sleep 30"
     networks:
       - avaliacao-network
 

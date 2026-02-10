@@ -24,8 +24,11 @@ namespace Avaliacao.Infrastructure.Context
             if (!optionsBuilder.IsConfigured)
             {
                 // Connection string do docker-compose
-                optionsBuilder.UseSqlServer("Server=localhost,1433;Database=AvaliacaoDB;User Id=sa;Password=Avaliacao@123;TrustServerCertificate=True;");
+                optionsBuilder.UseSqlServer("Server=sqlserver,1433;Database=AvaliacaoDB;User Id=sa;Password=Avaliacao@123;TrustServerCertificate=True;");
             }
+
+            optionsBuilder.ConfigureWarnings(w =>
+                w.Ignore(Microsoft.EntityFrameworkCore.Diagnostics.RelationalEventId.PendingModelChangesWarning));
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

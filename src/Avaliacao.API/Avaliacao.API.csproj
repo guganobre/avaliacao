@@ -17,4 +17,9 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Avaliacao.Domain\Avaliacao.Domain.csproj" />
+    <ProjectReference Include="..\Avaliacao.Infrastructure.IoC\Avaliacao.Infrastructure.IoC.csproj" />
+  </ItemGroup>
+
 </Project>
