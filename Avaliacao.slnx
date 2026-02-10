@@ -1,0 +1,8 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Avaliacao.API/Avaliacao.API.csproj" />
+    <Project Path="src/Avaliacao.Domain/Avaliacao.Domain.csproj" Id="cb30d981-6ed7-473e-83ff-b5b47783464a" />
+    <Project Path="src/Avaliacao.Infrastructure/Avaliacao.Infrastructure.csproj" Id="19e1fa1d-7985-45b8-bff1-36d6f01577a7" />
+    <Project Path="src/Avalicao.Application/Avaliacao.Application.csproj" Id="c4395ce9-4d1d-47d3-a49d-e379e8b7ade9" />
+  </Folder>
+</Solution>
