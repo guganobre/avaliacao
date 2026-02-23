@@ -11,14 +11,20 @@ services:
     ports:
       - "1433:1433"
     volumes:
-      - sqlserver-data:/var/opt/mssql
+      - sqlserver-data:/var/opt/mssql   
     networks:
       - avaliacao-network
- 
+    healthcheck:  
+      test: /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P Avaliacao@123 -Q "SELECT 1" -C || exit 1
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
   api:
-    build:
+    build:  
       context: .
-      dockerfile: src/Avaliacao.API/Dockerfile
+      dockerfile: Dockerfile
     container_name: avaliacao-api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
@@ -28,10 +34,10 @@ services:
       - "5000:8080"
     depends_on:
       sqlserver:
-        condition: service_started
-    entrypoint: sh -c "sleep 30"
+        condition: service_healthy
     networks:
       - avaliacao-network
+    restart: on-failure
 
 volumes:
   sqlserver-data:
