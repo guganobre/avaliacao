@@ -352,3 +352,170 @@ Se encontrar erro de conexão, verifique:
 ### Erro de CORS
 
 Se estiver consumindo a API de um frontend, certifique-se que o CORS está configurado no `Program.cs`.
+
+---
+
+## Integração com Aplicação Angular
+
+### Configuração CORS
+
+A API está configurada para aceitar requisições da aplicação Angular rodando em `http://localhost:4200`. A configuração de CORS no `Program.cs` permite:
+
+- **Origem permitida:** `http://localhost:4200`
+- **Métodos HTTP:** Todos (GET, POST, PUT, DELETE, etc.)
+- **Cabeçalhos:** Todos
+
+```csharp
+services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+```
+
+### Executando a Aplicação Angular
+
+1. **Navegue até o diretório da aplicação Angular:**
+   ```bash
+   cd angular-app
+   ```
+
+2. **Instale as dependências:**
+   ```bash
+   npm install
+   ```
+
+3. **Execute a aplicação:**
+   ```bash
+   ng serve
+   ```
+
+4. **Acesse no navegador:**
+   ```
+   http://localhost:4200
+   ```
+
+### URLs e Funcionalidades Disponíveis
+
+#### Relatório de Médias
+- **URL:** `http://localhost:4200/`
+- Exibe estatísticas consolidadas:
+  - Média do Valor do Veículo
+  - Média da Taxa de Risco
+  - Média do Prêmio de Risco
+  - Média do Prêmio Puro
+  - Média do Prêmio Comercial
+  - Média do Valor do Seguro
+  - Total de Seguros Cadastrados
+
+### Exemplo de Consumo da API no Angular
+
+#### Service de Seguros (TypeScript)
+
+```typescript
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class SeguroService {
+  private apiUrl = 'http://localhost:5000/api/seguro';
+
+  constructor(private http: HttpClient) { }
+
+  // Listar todos os seguros
+  listarSeguros(): Observable<any[]> {
+    return this.http.get<any[]>(this.apiUrl);
+  }
+
+  // Criar novo seguro
+  criarSeguro(seguro: any): Observable<any> {
+    return this.http.post<any>(this.apiUrl, seguro);
+  }
+
+  // Obter relatório de médias
+  obterRelatorioMedias(): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/relatorio/medias`);
+  }
+
+  // Obter seguro por ID
+  obterSeguroPorId(id: string): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
+}
+```
+
+### Executando API e Angular Simultaneamente
+
+Para testar a integração completa:
+
+1. **Terminal 1 - Execute a API:**
+   ```bash
+   cd src/Avaliacao.API
+   dotnet run
+   ```
+   A API estará disponível em: `http://localhost:5000`
+
+2. **Terminal 2 - Execute o Angular:**
+   ```bash
+   cd angular-app
+   ng serve
+   ```
+   A aplicação Angular estará disponível em: `http://localhost:4200`
+
+3. **Acesse o navegador:**
+   ```
+   http://localhost:4200
+   ```
+
+### Fluxo de Trabalho Típico
+
+1. **Analisar Médias:**
+   - Acesse `http://localhost:4200/`
+   - Visualize estatísticas consolidadas de todos os seguros
+
+### Tratamento de Erros no Angular
+
+A aplicação Angular está preparada para lidar com erros da API:
+
+- **Erro de Conexão (CORS):** Verifica se a API está rodando e CORS configurado
+- **Erro 400 (Bad Request):** Validações de formulário no frontend
+- **Erro 404 (Not Found):** Mensagem quando seguro não é encontrado
+- **Erro 500 (Server Error):** Mensagem genérica de erro do servidor
+
+### Troubleshooting Angular
+
+#### Erro de CORS
+```
+Access to XMLHttpRequest at 'http://localhost:5000/api/seguro' from origin 'http://localhost:4200' 
+has been blocked by CORS policy
+```
+
+**Solução:**
+- Verifique se a API está rodando em `http://localhost:5000`
+- Confirme que o CORS está configurado no `Program.cs`
+- Reinicie a API após configurar o CORS
+
+#### Erro de Conexão
+```
+HttpErrorResponse: Failed to load resource: net::ERR_CONNECTION_REFUSED
+```
+
+**Solução:**
+- Certifique-se que a API está rodando
+- Verifique se a URL da API no Angular está correta (`http://localhost:5000/api/seguro`)
+
+#### Erro de Build do Angular
+```
+Error: Cannot find module '@angular/core'
+```
+
+**Solução:**
+```bash
+npm install

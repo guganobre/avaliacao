@@ -2,7 +2,6 @@ import { Component, computed, inject, ChangeDetectionStrategy, OnInit, ChangeDet
 import { CommonModule } from '@angular/common';
 import { SeguroService } from '../../services/seguro.service';
 import { RelatorioMedias } from '../../models/relatorio-medias.model';
-import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartType, registerables } from 'chart.js';
 import Chart from 'chart.js/auto';
 
@@ -10,7 +9,7 @@ Chart.register(...registerables);
 
 @Component({
   selector: 'app-relatorio-medias',
-  imports: [CommonModule, BaseChartDirective],
+  imports: [CommonModule],
   templateUrl: './relatorio-medias.component.html',
   styleUrl: './relatorio-medias.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -20,12 +19,12 @@ export class RelatorioMediasComponent implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
-    this.seguroService.carregarSeguros().subscribe({
+    this.seguroService.carregarRelatorioMedias().subscribe({
       next: () => {
         this.cdr.markForCheck();
       },
       error: (err) => {
-        console.error('Erro ao carregar seguros:', err);
+        console.error('Erro ao carregar relatório de médias:', err);
       }
     });
   }
@@ -83,6 +82,12 @@ export class RelatorioMediasComponent implements OnInit {
 
   protected readonly barChartData = computed<ChartData<'bar'>>(() => {
     const dados = this.relatorio();
+    if (!dados) {
+      return {
+        labels: [],
+        datasets: []
+      };
+    }
     return {
       labels: ['Prêmio de Risco', 'Prêmio Puro', 'Prêmio Comercial', 'Valor do Seguro'],
       datasets: [
@@ -158,6 +163,12 @@ export class RelatorioMediasComponent implements OnInit {
 
   protected readonly pieChartData = computed<ChartData<'pie'>>(() => {
     const dados = this.relatorio();
+    if (!dados) {
+      return {
+        labels: [],
+        datasets: []
+      };
+    }
     return {
       labels: ['Prêmio de Risco', 'Prêmio Puro', 'Prêmio Comercial', 'Valor do Seguro'],
       datasets: [
@@ -198,7 +209,7 @@ export class RelatorioMediasComponent implements OnInit {
       style: 'percent',
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
-    }).format(valor);
+    }).format(valor / 100);
   }
 
   protected copiarJson(): void {

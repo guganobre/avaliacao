@@ -10,7 +10,70 @@
 - ✅ **GET /api/seguro/{id}** - Obter seguro por ID
 - ✅ **GET /api/seguro/relatorio/medias** - Relatório com médias aritméticas
 
-### 2. Camadas da Arquitetura
+#### Configuração CORS:
+- ✅ CORS configurado para permitir requisições da aplicação Angular
+- ✅ Origem permitida: `http://localhost:4200`
+- ✅ Todos os métodos HTTP permitidos
+- ✅ Todos os cabeçalhos permitidos
+
+### 2. Frontend Angular
+
+#### Componentes Criados:
+- ✅ **SeguroListComponent** - Listagem de todos os seguros
+  - Tabela responsiva com dados dos seguros
+  - Formatação de valores monetários
+  - Formatação de datas
+  - Navegação para criação de novo seguro
+
+- ✅ **SeguroFormComponent** - Formulário de criação de seguro
+  - Validação de campos obrigatórios
+  - Validação de valores numéricos
+  - Submissão de dados para API
+  - Redirecionamento após criação
+
+- ✅ **RelatorioMediasComponent** - Relatório de médias
+  - Exibição de estatísticas consolidadas
+  - Cards com médias de todos os valores
+  - Total de seguros cadastrados
+  - Formatação de valores monetários e percentuais
+
+- ✅ **AppComponent** - Componente principal
+  - Navegação entre páginas
+  - Menu responsivo
+  - Layout consistente
+
+#### Services:
+- ✅ **SeguroService** - Comunicação com a API
+  - `listarSeguros()` - GET /api/seguro
+  - `criarSeguro(seguro)` - POST /api/seguro
+  - `obterSeguroPorId(id)` - GET /api/seguro/{id}
+  - `obterRelatorioMedias()` - GET /api/seguro/relatorio/medias
+  - Tratamento de erros HTTP
+  - Configuração de HttpClient
+
+#### Rotas Configuradas:
+- ✅ `/` - Relatório de médias
+
+#### Funcionalidades do Frontend:
+- ✅ Listagem de seguros com paginação visual
+- ✅ Criação de novos seguros com validação
+- ✅ Visualização de relatórios estatísticos
+- ✅ Navegação fluida entre páginas
+- ✅ Mensagens de erro amigáveis
+- ✅ Loading states durante requisições
+- ✅ Formatação brasileira (R$, datas, CPF)
+- ✅ Design responsivo
+
+#### Tecnologias Angular:
+- ✅ Angular 19+
+- ✅ TypeScript
+- ✅ RxJS (Observables)
+- ✅ HttpClient para requisições HTTP
+- ✅ Router para navegação
+- ✅ FormsModule para formulários
+- ✅ CommonModule para diretivas
+
+### 3. Camadas da Arquitetura
 
 #### Domain Layer (Avaliacao.Domain)
 - ✅ **Entidades:**
@@ -83,7 +146,7 @@
   - Migrations automáticas no startup
   - Roteamento em lowercase
 
-### 3. Testes Unitários (Avaliacao.Tests)
+### 4. Testes Unitários (Avaliacao.Tests)
 
 - ✅ **Testes do SeguroCalculadoraService:**
   - ✅ Teste de cálculo de taxa de risco
@@ -163,6 +226,8 @@ Valor do Seguro = Prêmio Comercial
 
 ### Opções Suportadas:
 
+#### Backend:
+
 1. **Docker Compose** ✅
    - Arquivo docker-compose.yml configurado
    - SQL Server containerizado
@@ -174,6 +239,40 @@ Valor do Seguro = Prêmio Comercial
 
 3. **IIS** (Pronto para deploy)
    - Publicação padrão .NET
+
+#### Frontend:
+
+1. **Desenvolvimento Local** ✅
+   ```bash
+   cd angular-app
+   npm install
+   ng serve
+   # Disponível em http://localhost:4200
+   ```
+
+2. **Build de Produção** ✅
+   ```bash
+   ng build --configuration production
+   # Arquivos gerados em dist/
+   ```
+
+3. **Azure Static Web Apps** (Pronto para deploy)
+   - Build automático via GitHub Actions
+   - Integração com backend
+
+4. **Nginx/Apache** (Pronto para deploy)
+   - Arquivos estáticos em dist/
+   - Configuração de rotas SPA
+
+## 🔗 Integração Frontend-Backend
+
+- ✅ **CORS configurado** no backend para aceitar requisições do Angular
+- ✅ **HttpClient** configurado no Angular para consumir a API
+- ✅ **Tratamento de erros** em ambas as camadas
+- ✅ **DTOs compartilhados** (mesma estrutura de dados)
+- ✅ **Ambiente de desenvolvimento** sincronizado:
+  - Backend: `http://localhost:5000`
+  - Frontend: `http://localhost:4200`
 
 ## 🧪 Qualidade de Código
 
@@ -188,11 +287,21 @@ Valor do Seguro = Prêmio Comercial
 
 ## 📦 Pacotes NuGet Utilizados
 
+### Backend (.NET):
 - Microsoft.EntityFrameworkCore
 - Microsoft.EntityFrameworkCore.SqlServer
 - Swashbuckle.AspNetCore (Swagger)
 - MediatR
 - xUnit (Testes)
+
+### Frontend (Angular):
+- @angular/core
+- @angular/common
+- @angular/router
+- @angular/forms
+- @angular/platform-browser
+- rxjs
+- typescript
 
 ## 🎯 Requisitos Atendidos
 
