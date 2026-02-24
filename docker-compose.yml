@@ -24,7 +24,7 @@ services:
   api:
     build:  
       context: .
-      dockerfile: Dockerfile
+      dockerfile: src/Avaliacao.API/Dockerfile
     container_name: avaliacao-api
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
