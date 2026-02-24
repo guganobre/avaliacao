@@ -39,6 +39,21 @@ services:
       - avaliacao-network
     restart: on-failure
 
+  avaliacao-web:
+    build:
+      context: src/Avaliacao.Web
+      dockerfile: Dockerfile
+    container_name: avaliacao-web
+    ports:
+      - "4200:4200"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - api
+    networks:
+      - avaliacao-network
+    restart: on-failure
+
 volumes:
   sqlserver-data:
 

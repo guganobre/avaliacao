@@ -37,7 +37,7 @@ namespace Avaliacao.API.Controllers
             try
             {
                 var response = await _criarSeguroUseCase.ExecuteAsync(request);
-                return CreatedAtAction(nameof(ObterSeguroPorIdAsync), new { id = response.Id }, response);
+                return StatusCode(StatusCodes.Status201Created, response);
             }
             catch (ArgumentException ex)
             {
@@ -57,6 +57,17 @@ namespace Avaliacao.API.Controllers
         }
 
         /// <summary>
+        /// Obtém relatório com as médias aritméticas dos seguros
+        /// </summary>
+        [HttpGet("relatorio/medias")]
+        [ProducesResponseType(typeof(RelatorioMediasResponse), StatusCodes.Status200OK)]
+        public async Task<IActionResult> ObterRelatorioMediasAsync()
+        {
+            var relatorio = await _obterRelatorioMediasUseCase.ExecuteAsync();
+            return Ok(relatorio);
+        }
+
+        /// <summary>
         /// Obtém um seguro específico por ID
         /// </summary>
         [HttpGet("{id:guid}")]
@@ -70,17 +81,6 @@ namespace Avaliacao.API.Controllers
                 return NotFound(new { error = "Seguro não encontrado" });
 
             return Ok(seguro);
-        }
-
-        /// <summary>
-        /// Obtém relatório com as médias aritméticas dos seguros
-        /// </summary>
-        [HttpGet("relatorio/medias")]
-        [ProducesResponseType(typeof(RelatorioMediasResponse), StatusCodes.Status200OK)]
-        public async Task<IActionResult> ObterRelatorioMediasAsync()
-        {
-            var relatorio = await _obterRelatorioMediasUseCase.ExecuteAsync();
-            return Ok(relatorio);
         }
     }
 }

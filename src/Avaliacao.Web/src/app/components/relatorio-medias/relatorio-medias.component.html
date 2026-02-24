@@ -37,43 +37,6 @@
           <div class="stat-value">{{ formatarMoeda(dados.mediaValorSeguro) }}</div>
         </div>
       </section>
-
-      <section class="charts-section">
-        <h2 class="charts-title">Visualizações Gráficas</h2>
-        <div class="charts-grid">
-          <div class="chart-card">
-            <h3>Gráfico de Barras - Comparação de Médias</h3>
-            <div class="chart-container">
-              <canvas baseChart
-                [data]="barChartData()"
-                [type]="barChartType"
-                [options]="barChartOptions">
-              </canvas>
-            </div>
-          </div>
-
-          <div class="chart-card">
-            <h3>Gráfico de Pizza - Distribuição dos Prêmios</h3>
-            <div class="chart-container">
-              <canvas baseChart
-                [data]="pieChartData()"
-                [type]="pieChartType"
-                [options]="pieChartOptions">
-              </canvas>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="json-section">
-        <div class="json-header">
-          <h2>Relatório em JSON</h2>
-          <button type="button" class="btn-copy" (click)="copiarJson()">
-            Copiar JSON
-          </button>
-        </div>
-        <pre class="json-content"><code>{{ relatorioJson() }}</code></pre>
-      </section>
     }
   </main>
 </div>

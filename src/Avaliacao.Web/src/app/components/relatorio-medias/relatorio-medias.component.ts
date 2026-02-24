@@ -1,4 +1,4 @@
-import { Component, computed, inject, ChangeDetectionStrategy } from '@angular/core';
+import { Component, computed, inject, ChangeDetectionStrategy, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SeguroService } from '../../services/seguro.service';
 import { RelatorioMedias } from '../../models/relatorio-medias.model';
@@ -6,7 +6,6 @@ import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartData, ChartType, registerables } from 'chart.js';
 import Chart from 'chart.js/auto';
 
-// Registrar todos os componentes do Chart.js
 Chart.register(...registerables);
 
 @Component({
@@ -16,13 +15,24 @@ Chart.register(...registerables);
   styleUrl: './relatorio-medias.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class RelatorioMediasComponent {
+export class RelatorioMediasComponent implements OnInit {
   private readonly seguroService = inject(SeguroService);
+  private readonly cdr = inject(ChangeDetectorRef);
+
+  ngOnInit(): void {
+    this.seguroService.carregarSeguros().subscribe({
+      next: () => {
+        this.cdr.markForCheck();
+      },
+      error: (err) => {
+        console.error('Erro ao carregar seguros:', err);
+      }
+    });
+  }
 
   protected readonly relatorio = computed(() => this.seguroService.obterRelatorioMedias());
   protected readonly relatorioJson = computed(() => this.seguroService.obterRelatorioMediasJson());
 
-  // Configuração do gráfico de barras
   protected readonly barChartType: ChartType = 'bar';
   protected readonly barChartOptions: ChartConfiguration['options'] = {
     responsive: true,
@@ -102,7 +112,6 @@ export class RelatorioMediasComponent {
     };
   });
 
-  // Configuração do gráfico de pizza
   protected readonly pieChartType: ChartType = 'pie';
   protected readonly pieChartOptions: ChartConfiguration['options'] = {
     responsive: true,

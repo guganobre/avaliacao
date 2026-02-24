@@ -37,6 +37,14 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
+
+// Redirecionar raiz para Swagger
+app.MapGet("/", context =>
+{
+    context.Response.Redirect("/swagger", permanent: false);
+    return Task.CompletedTask;
+});
+
 app.MapControllers();
 
 app.Run();

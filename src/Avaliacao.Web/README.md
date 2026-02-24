@@ -4,7 +4,7 @@ Frontend moderno desenvolvido em Angular 21 para exibição de relatório de mé
 
 ## 📋 Descrição
 
-Este projeto é uma aplicação frontend que exibe um relatório com as médias aritméticas dos cálculos de seguros de veículos. Os dados são mockados e incluem informações sobre seguros, veículos e segurados.
+Este projeto é uma aplicação frontend que exibe um relatório com as médias aritméticas dos cálculos de seguros de veículos. A aplicação consome dados de uma API REST e apresenta visualizações gráficas interativas dos dados estatísticos.
 
 ## 🚀 Tecnologias
 
@@ -13,28 +13,37 @@ Este projeto é uma aplicação frontend que exibe um relatório com as médias 
 - **SCSS** - Pré-processador CSS
 - **Standalone Components** - Arquitetura moderna do Angular
 - **Signals** - Gerenciamento de estado reativo
+- **RxJS** - Programação reativa
+- **OnPush Change Detection** - Otimização de performance
 
 ## 🏗️ Estrutura do Projeto
 
 ```
 src/app/
 ├── components/
-│   └── relatorio-medias/     # Componente de relatório
-├── models/                    # Interfaces e modelos
+│   └── relatorio-medias/          # Componente principal de relatório
+│       ├── relatorio-medias.component.ts
+│       ├── relatorio-medias.component.html
+│       └── relatorio-medias.component.scss
+├── models/                         # Interfaces e modelos TypeScript
 │   ├── seguro.model.ts
 │   ├── veiculo.model.ts
 │   ├── segurado.model.ts
 │   └── relatorio-medias.model.ts
-└── services/
-    └── seguro.service.ts     # Serviço com dados mockados
+├── services/
+│   └── seguro.service.ts           # Serviço de comunicação com API
+├── app.config.ts                   # Configuração da aplicação
+├── app.routes.ts                   # Rotas da aplicação
+└── app.ts                          # Componente raiz
 ```
 
 ## 🎯 Funcionalidades
 
 - ✅ Exibição de relatório com médias aritméticas dos seguros
-- ✅ Visualização em formato JSON
 - ✅ Interface moderna e responsiva
-- ✅ Dados mockados para demonstração
+- ✅ Integração com API REST
+- ✅ Formatação de valores monetários e percentuais
+- ✅ Change Detection otimizado com OnPush
 
 ## 📊 Cálculo do Seguro
 
@@ -50,12 +59,50 @@ Onde:
 - MARGEM_SEGURANÇA = 3%
 - LUCRO = 5%
 
+## 🔌 Integração com API
+
+A aplicação consome dados de uma API REST localizada em:
+
+```
+http://localhost:5000/api/seguro
+```
+
+### Endpoints Utilizados
+
+- `GET /api/seguro` - Retorna lista de seguros com todos os cálculos realizados
+
+### Modelo de Dados
+
+O serviço espera receber um array de objetos `Seguro` com a seguinte estrutura:
+
+```typescript
+{
+  id: string;
+  criadoEmUtc: string;
+  veiculo: {
+    valor: number;
+    marcaModelo: string;
+  };
+  segurado: {
+    nome: string;
+    cpf: string;
+    idade: number;
+  };
+  taxaRisco: number;
+  premioRisco: number;
+  premioPuro: number;
+  premioComercial: number;
+  valorSeguro: number;
+}
+```
+
 ## 🛠️ Instalação e Execução
 
 ### Pré-requisitos
 
 - Node.js (versão 22 ou superior)
 - npm (versão 11 ou superior)
+- API backend rodando em `http://localhost:5000`
 
 ### Instalação
 
@@ -73,66 +120,84 @@ npm start
 
 Acesse `http://localhost:4200/` no navegador.
 
+A aplicação irá recarregar automaticamente quando você modificar os arquivos de código.
+
 ### Build para produção
 
 ```bash
 ng build
 ```
 
-Os arquivos compilados estarão em `dist/`.
+Os arquivos compilados estarão em `dist/`. Por padrão, o build de produção otimiza a aplicação para performance e velocidade.
 
-## Development server
-
-To start a local development server, run:
+### Executar em modo watch
 
 ```bash
-ng serve
+npm run watch
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Compila o projeto e observa mudanças nos arquivos, recompilando automaticamente.
 
-## Code scaffolding
+## 🧪 Testes
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### Testes unitários
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Para executar os testes unitários com [Vitest](https://vitest.dev/):
 
 ```bash
 ng test
 ```
 
-## Running end-to-end tests
+### Testes end-to-end
 
-For end-to-end (e2e) testing, run:
+Para testes end-to-end (e2e):
 
 ```bash
 ng e2e
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+O Angular CLI não vem com um framework de testes e2e por padrão. Você pode escolher um que atenda às suas necessidades.
 
-## Additional Resources
+## 📦 Scripts Disponíveis
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `npm start` - Inicia o servidor de desenvolvimento
+- `npm run build` - Compila o projeto para produção
+- `npm run watch` - Compila e observa mudanças
+- `npm test` - Executa os testes unitários
+- `ng generate component component-name` - Gera um novo componente
+
+Para uma lista completa de schematics disponíveis (como `components`, `directives`, ou `pipes`), execute:
+
+```bash
+ng generate --help
+```
+
+## 🎨 Características da Interface
+
+- Design moderno com gradientes e animações suaves
+- Layout responsivo para diferentes tamanhos de tela
+- Cards interativos com efeitos hover
+- Gráficos interativos com tooltips formatados
+- Formatação automática de valores monetários (BRL)
+- Formatação de percentuais com 2 casas decimais
+
+## 📚 Recursos Adicionais
+
+Para mais informações sobre o uso do Angular CLI, incluindo referências detalhadas de comandos, visite a [página de Visão Geral e Referência de Comandos do Angular CLI](https://angular.dev/tools/cli).
+
+## 🔧 Configuração
+
+### Prettier
+
+O projeto está configurado com Prettier para formatação de código:
+
+- Largura máxima de linha: 100 caracteres
+- Aspas simples habilitadas
+- Parser Angular para arquivos HTML
+
+### TypeScript
+
+Configurações TypeScript estão em:
+- `tsconfig.json` - Configuração base
+- `tsconfig.app.json` - Configuração da aplicação
+- `tsconfig.spec.json` - Configuração dos testes

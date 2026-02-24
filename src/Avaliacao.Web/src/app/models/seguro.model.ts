@@ -3,6 +3,7 @@ import { Veiculo } from './veiculo.model';
 
 export interface Seguro {
   id: string;
+  criadoEmUtc: string;
   veiculo: Veiculo;
   segurado: Segurado;
   taxaRisco: number;
@@ -10,6 +11,5 @@ export interface Seguro {
   premioPuro: number;
   premioComercial: number;
   valorSeguro: number;
-  dataCalculo: Date;
 }
 
