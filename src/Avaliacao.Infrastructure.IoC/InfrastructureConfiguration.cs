@@ -1,9 +1,10 @@
 ﻿using Avaliacao.Domain.Interfaces.Infrastructure;
+using Avaliacao.Infrastructure;
 using Avaliacao.Infrastructure.Context;
+using Avaliacao.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using System.Reflection;
 
 namespace Avaliacao.Infrastructure.IoC
@@ -20,6 +21,11 @@ namespace Avaliacao.Infrastructure.IoC
                                 b => b.MigrationsAssembly(typeof(DbContextAvaliacao).Assembly.FullName)));
 
             services.AddScoped<IUnitOfWork, AvaliacaoUnitOfWork>();
+
+            // Repositories
+            services.AddScoped<ISeguroRepository, SeguroRepository>();
+            services.AddScoped<IVeiculoRepository, VeiculoRepository>();
+            services.AddScoped<ISeguradoRepository, SeguradoRepository>();
 
             return services;
         }

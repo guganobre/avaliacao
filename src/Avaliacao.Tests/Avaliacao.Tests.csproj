@@ -18,4 +18,9 @@
     <Using Include="Xunit" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Avaliacao.Domain\Avaliacao.Domain.csproj" />
+    <ProjectReference Include="..\Avalicao.Application\Avaliacao.Application.csproj" />
+  </ItemGroup>
+
 </Project>

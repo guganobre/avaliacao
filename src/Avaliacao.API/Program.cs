@@ -11,6 +11,7 @@ services.AddControllers();
 services.AddRouting(options => options.LowercaseUrls = true);
 
 services.ConfigureServicesInfrastructure(builder.Configuration);
+services.ConfigureServicesApplication();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 //services.AddOpenApi();

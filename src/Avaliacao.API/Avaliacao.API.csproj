@@ -15,6 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Avaliacao.Domain\Avaliacao.Domain.csproj" />
+    <ProjectReference Include="..\Avalicao.Application\Avaliacao.Application.csproj" />
     <ProjectReference Include="..\Avaliacao.Infrastructure.IoC\Avaliacao.Infrastructure.IoC.csproj" />
   </ItemGroup>
 
