@@ -4,7 +4,7 @@ using Avaliacao.Infrastructure.Context;
 using Avaliacao.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection; 
 using System.Reflection;
 
 namespace Avaliacao.Infrastructure.IoC
