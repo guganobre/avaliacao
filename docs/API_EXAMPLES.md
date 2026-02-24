@@ -9,7 +9,7 @@
 **Exemplo de Request:**
 
 ```bash
-curl -X POST "https://localhost:5001/api/seguro" \
+curl -X POST "https://localhost:5000/api/seguro" \
   -H "Content-Type: application/json" \
   -d '{
     "veiculo": {
@@ -56,7 +56,7 @@ curl -X POST "https://localhost:5001/api/seguro" \
 **Exemplo de Request:**
 
 ```bash
-curl -X GET "https://localhost:5001/api/seguro"
+curl -X GET "https://localhost:5000/api/seguro"
 ```
 
 **Exemplo de Response (200 OK):**
@@ -111,7 +111,7 @@ curl -X GET "https://localhost:5001/api/seguro"
 **Exemplo de Request:**
 
 ```bash
-curl -X GET "https://localhost:5001/api/seguro/a1b2c3d4-e5f6-7890-abcd-ef1234567890"
+curl -X GET "https://localhost:5000/api/seguro/a1b2c3d4-e5f6-7890-abcd-ef1234567890"
 ```
 
 **Exemplo de Response (200 OK):**
@@ -154,7 +154,7 @@ curl -X GET "https://localhost:5001/api/seguro/a1b2c3d4-e5f6-7890-abcd-ef1234567
 **Exemplo de Request:**
 
 ```bash
-curl -X GET "https://localhost:5001/api/seguro/relatorio/medias"
+curl -X GET "https://localhost:5000/api/seguro/relatorio/medias"
 ```
 
 **Exemplo de Response (200 OK):**
@@ -287,7 +287,7 @@ curl -X GET "https://localhost:5001/api/seguro/relatorio/medias"
    dotnet run --project src/Avaliacao.API
    ```
 
-2. Acesse: `https://localhost:5001/swagger`
+2. Acesse: `https://localhost:5000/swagger`
 
 3. Explore os endpoints disponíveis interativamente
 
@@ -295,9 +295,9 @@ curl -X GET "https://localhost:5001/api/seguro/relatorio/medias"
 
 ## Testando via Postman
 
-1. Importe a coleção usando a URL do Swagger: `https://localhost:5001/swagger/v1/swagger.json`
+1. Importe a coleção usando a URL do Swagger: `https://localhost:5000/swagger/v1/swagger.json`
 
-2. Configure a variável de ambiente `baseUrl` para `https://localhost:5001`
+2. Configure a variável de ambiente `baseUrl` para `https://localhost:5000`
 
 3. Execute os requests da coleção
 
@@ -321,13 +321,13 @@ $body = @{
     }
 } | ConvertTo-Json
 
-$response = Invoke-RestMethod -Uri "https://localhost:5001/api/seguro" -Method Post -Body $body -ContentType "application/json"
+$response = Invoke-RestMethod -Uri "https://localhost:5000/api/seguro" -Method Post -Body $body -ContentType "application/json"
 
 Write-Host "Seguro criado com ID: $($response.id)"
 Write-Host "Valor do Seguro: R$ $($response.valorSeguro)"
 
 # Obter relatório de médias
-$relatorio = Invoke-RestMethod -Uri "https://localhost:5001/api/seguro/relatorio/medias" -Method Get
+$relatorio = Invoke-RestMethod -Uri "https://localhost:5000/api/seguro/relatorio/medias" -Method Get
 
 Write-Host "`nRelatório de Médias:"
 Write-Host "Total de Seguros: $($relatorio.totalSeguros)"
