@@ -1,0 +1,80 @@
+<div class="relatorio-container">
+  <header class="relatorio-header">
+    <h1>Relatório de Médias Aritméticas dos Seguros</h1>
+    <p class="subtitle">Análise estatística dos cálculos de seguros de veículos</p>
+  </header>
+
+  <main class="relatorio-content">
+    @if (relatorio(); as dados) {
+      <section class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Total de Seguros</div>
+          <div class="stat-value">{{ dados.totalSeguros }}</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Média Taxa de Risco</div>
+          <div class="stat-value">{{ formatarPercentual(dados.mediaTaxaRisco) }}</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Média Prêmio de Risco</div>
+          <div class="stat-value">{{ formatarMoeda(dados.mediaPremioRisco) }}</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Média Prêmio Puro</div>
+          <div class="stat-value">{{ formatarMoeda(dados.mediaPremioPuro) }}</div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-label">Média Prêmio Comercial</div>
+          <div class="stat-value">{{ formatarMoeda(dados.mediaPremioComercial) }}</div>
+        </div>
+
+        <div class="stat-card highlight">
+          <div class="stat-label">Média Valor do Seguro</div>
+          <div class="stat-value">{{ formatarMoeda(dados.mediaValorSeguro) }}</div>
+        </div>
+      </section>
+
+      <section class="charts-section">
+        <h2 class="charts-title">Visualizações Gráficas</h2>
+        <div class="charts-grid">
+          <div class="chart-card">
+            <h3>Gráfico de Barras - Comparação de Médias</h3>
+            <div class="chart-container">
+              <canvas baseChart
+                [data]="barChartData()"
+                [type]="barChartType"
+                [options]="barChartOptions">
+              </canvas>
+            </div>
+          </div>
+
+          <div class="chart-card">
+            <h3>Gráfico de Pizza - Distribuição dos Prêmios</h3>
+            <div class="chart-container">
+              <canvas baseChart
+                [data]="pieChartData()"
+                [type]="pieChartType"
+                [options]="pieChartOptions">
+              </canvas>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="json-section">
+        <div class="json-header">
+          <h2>Relatório em JSON</h2>
+          <button type="button" class="btn-copy" (click)="copiarJson()">
+            Copiar JSON
+          </button>
+        </div>
+        <pre class="json-content"><code>{{ relatorioJson() }}</code></pre>
+      </section>
+    }
+  </main>
+</div>
+
